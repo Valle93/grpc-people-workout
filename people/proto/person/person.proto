@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package main;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/api/http.proto";
+
+option go_package = "./";
+
+service PersonCRUD {
+    rpc CreateNewPerson (NewPerson) returns (Person) {}
+    rpc ListAllPeople (Empty) returns (listPeople) {}
+    rpc DeletePerson (ID) returns (response) {}
+    rpc UpdatePerson (Person) returns (response) {}
+    rpc GetPerson (ID) returns (Person) {}
+    rpc Greeting (Empty) returns (HelloRes) {
+        option (google.api.http) = {
+            get: "/greeting"
+        };
+    }
+}
+
+message HelloRes {
+
+    string response = 1;
+}
+
+message Empty {}
+
+message ID {
+    int32 id = 1;
+}
+
+message response {
+    string response = 1;
+}
+
+message listPeople {
+    repeated Person people = 1;
+}
+
+message NewPerson {
+    string name = 1;
+    int32 age = 2;
+}
+
+message Person {
+    string name = 1;
+    int32 age = 2;
+    int32 id = 3;
+}
